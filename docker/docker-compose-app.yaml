@@ -1,0 +1,53 @@
+version: '3.4'
+services:
+  front:
+    container_name: devops_front
+    image: danilovaleksey92/tages-front:1.0.0
+    restart: always
+    ports:
+      - 9000:9000
+    hostname: front
+    environment:
+      - RABBITMQ_HOST=amqp://rabbitmqhost
+      - PG_HOST=pghost
+      - PG_PORT=5432
+      - PG_USER=postgres
+      - PG_PASS=mysecretpassword
+      - PG_DB=postgres
+      - REDIS_HOST=radishost
+      - REDIS_PORT=6379
+
+  api:
+    container_name: devops_api
+    image: danilovaleksey92/tages-api:1.0.0
+    restart: always
+#    ports:
+#      - 3000:3000
+    hostname: api
+    environment:
+      - RABBITMQ_HOST=amqp://rabbitmqhost
+      - PG_HOST=pghost
+      - PG_PORT=5432
+      - PG_USER=postgres
+      - PG_PASS=mysecretpassword
+      - PG_DB=postgres
+      - REDIS_HOST=radishost
+      - REDIS_PORT=6379
+
+  worker:
+    container_name: devops_worker
+    image: danilovaleksey92/tages-worker:1.0.0
+    restart: always
+#    ports:
+#      - 5000:5000
+    hostname: worker
+    environment:
+      - RABBITMQ_HOST=amqp://rabbitmqhost
+      - PG_HOST=pghost
+      - PG_PORT=5432
+      - PG_USER=postgres
+      - PG_PASS=mysecretpassword
+      - PG_DB=postgres
+      - REDIS_HOST=radishost
+      - REDIS_PORT=6379
+

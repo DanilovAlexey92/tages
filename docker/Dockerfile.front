@@ -1,0 +1,16 @@
+# Этап 1: Сборка
+FROM node:10 as build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# Этап 2: Запуск приложения через Nginx
+FROM nginx:latest
+WORKDIR /app
+COPY --from=build /app/dist ./frontend
+COPY src/frontend/nginx.conf /etc/nginx/conf.d/default.conf
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
+EXPOSE 9000
+

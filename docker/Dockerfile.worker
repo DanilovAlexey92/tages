@@ -1,0 +1,8 @@
+# Этап 1: Сборка
+FROM node:10 as build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+ENTRYPOINT ["npm", "run", "dev:api:worker"]
+EXPOSE 5000
