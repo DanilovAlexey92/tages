@@ -1,0 +1,32 @@
+env:
+  rabbitmqHost: ${RABBITMQ_HOST}
+  pgHost: ${PG_HOST}
+  pgPort: ${PG_HOST}
+  pgUser: ${PG_USER}
+  pgPassword: ${PG_PASS}
+  pgDB: ${PG_DB}
+  redisHost: ${REDIS_HOST}
+  redisPort: ${REDIS_PORT}
+
+api:
+  name: devops-api
+  image: ${API_IMAGE}
+  replicas: 1
+  port: ${API_PORT}
+  service:
+    name: api
+worker:
+  name: devops-worker
+  image: ${WORKER_IMAGE}
+  replicas: 1
+  port: ${WORKER_PORT}
+  service:
+    name: worker
+front:
+  name: devops-front
+  image: ${FRONT_IMAGE}
+  replicas: 1
+  port: ${FRONT_PORT}
+  service:
+    name: front
+  cmNginx: nginx-conf-front

@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.front.cmNginx }}
+data:
+  nginx.conf: |
+    server {
+        listen 9000;
+
+        location / {
+            root /app/frontend;
+            index index.html;
+            try_files $uri $uri/ /index.html;
+        }
+
+        location /api {
+            proxy_pass http://{{ .Values.api.service.name }}:{{ .Values.api.port }};
+        }
+    }

@@ -1,0 +1,5 @@
+apiVersion: v2
+type: application
+name: devops-app
+description: app Helm Chart
+version: 0.1.0
