@@ -1,0 +1,32 @@
+env:
+  rabbitmqHost: "amqp://rabbitmqhost"
+  pgHost: pghost
+  pgPort: 5432
+  pgUser: postgres
+  pgPassword: mysecretpassword
+  pgDB: postgres
+  redisHost: radishost
+  redisPort: 6379
+
+api:
+  name: devops-api
+  image: danilovaleksey92/tages-api:1.0.0
+  replicas: 1
+  port: 3000
+  service:
+    name: api
+worker:
+  name: devops-worker
+  image: danilovaleksey92/tages-worker:1.0.0
+  replicas: 1
+  port: 5000
+  service:
+    name: worker
+front:
+  name: devops-front
+  image: danilovaleksey92/tages-front:1.0.0
+  replicas: 1
+  port: 9000
+  service:
+    name: front
+  cmNginx: nginx-conf-front

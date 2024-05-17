@@ -1,0 +1,22 @@
+db:
+  name: devops-db
+  image: postgres:11.2
+  replicas: 1
+  postgresPassword: mysecretpassword
+  port: 5432
+  service:
+    name: pghost
+cache:
+  name: devops-cache
+  image: redis:5.0
+  replicas: 1
+  port: 6379
+  service:
+    name: radishost
+broker:
+  name: devops-broker
+  image: rabbitmq:3.7
+  replicas: 1
+  port: 5672
+  service:
+    name: rabbitmqhost

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.front.name }}
+spec:
+  replicas: {{ .Values.front.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.front.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.front.name }}
+    spec:
+      containers:
+      - name: {{ .Values.front.name }}
+        image: {{ .Values.front.image }}
+        ports:
+        - containerPort: {{ .Values.front.port }}
+        env:
+        - name: RABBITMQ_HOST
+          value: "{{ .Values.env.rabbitmqHost }}"
+        - name: PG_HOST
+          value: "{{ .Values.env.pgHost }}"
+        - name: PG_PORT
+          value: "{{ .Values.env.pgPort }}"
+        - name: PG_USER
+          value: "{{ .Values.env.pgUser }}"
+        - name: PG_PASS
+          value: "{{ .Values.env.pgPassword }}"
+        - name: PG_DB
+          value: "{{ .Values.env.pgDB }}"
+        - name: REDIS_HOST
+          value: "{{ .Values.env.redisHost }}"
+        - name: REDIS_PORT
+          value: "{{ .Values.env.redisPort }}"

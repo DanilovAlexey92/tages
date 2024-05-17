@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.broker.name }}
+spec:
+  replicas: {{ .Values.broker.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.broker.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.broker.name }}
+    spec:
+      containers:
+      - name: {{ .Values.broker.name }}
+        image: {{ .Values.broker.image }}
+        ports:
+        - containerPort: {{ .Values.broker.port }}

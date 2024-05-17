@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.cache.service.name }}
+spec:
+  selector:
+    app: {{ .Values.cache.name }}
+  ports:
+  - port: {{ .Values.cache.port }}

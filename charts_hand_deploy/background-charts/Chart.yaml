@@ -1,0 +1,6 @@
+apiVersion: v2
+type: application
+name: devops-infra
+description: devops-infra background Helm Chart
+version: 0.1.0
+

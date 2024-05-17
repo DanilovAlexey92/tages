@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.worker.name }}
+spec:
+  replicas: {{ .Values.worker.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.worker.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.worker.name }}
+    spec:
+      containers:
+      - name: {{ .Values.worker.name }}
+        image: {{ .Values.worker.image }}
+        ports:
+        - containerPort: {{ .Values.worker.port }}
+        env:
+        - name: RABBITMQ_HOST
+          value: "{{ .Values.env.rabbitmqHost }}"
+        - name: PG_HOST
+          value: "{{ .Values.env.pgHost }}"
+        - name: PG_PORT
+          value: "{{ .Values.env.pgPort }}"
+        - name: PG_USER
+          value: "{{ .Values.env.pgUser }}"
+        - name: PG_PASS
+          value: "{{ .Values.env.pgPassword }}"
+        - name: PG_DB
+          value: "{{ .Values.env.pgDB }}"
+        - name: REDIS_HOST
+          value: "{{ .Values.env.redisHost }}"
+        - name: REDIS_PORT
+          value: "{{ .Values.env.redisPort }}"
+        readinessProbe:
+          httpGet:
+            path: /healthcheck
+            port: {{ .Values.worker.port }}
+          periodSeconds: 5
+          failureThreshold: 3
