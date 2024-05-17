@@ -19,7 +19,6 @@ build-front:
   script:
     - docker build -f docker/Dockerfile.front -t ${DOCKER_REGISTRY}/tages-front:{DOCKER_TAG} .
     - docker push ${DOCKER_REGISTRY}/front:${DOCKER_TAG}
- when: manual
  
 build-api:
   stage: build
@@ -29,7 +28,6 @@ build-api:
   script:
     - docker build -f docker/Dockerfile.api -t ${DOCKER_REGISTRY}/tages-api:{DOCKER_TAG} .
     - docker push ${DOCKER_REGISTRY}/api:${DOCKER_TAG}
- when: manual
 
 
 build-worker:
@@ -40,7 +38,6 @@ build-worker:
   script:
     - docker build -f docker/Dockerfile.worker -t ${DOCKER_REGISTRY}/tages-worker:{DOCKER_TAG} .
     - docker push ${MY_REGISTRY}/worker:${DOCKER_TAG}
- when: manual
 
 deploy:
   stage: deploy

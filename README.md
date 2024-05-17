@@ -36,7 +36,7 @@
 
 В гитлаб необходимо передать переменные:
 KUBE_CONFIG должен содержать данные для подключения к куберу, лучше передавать в закодированном в виде base64 -w0 а иначе переносы строк теряются, в пайплане используется декодинг base64 -d
-
+```bash
 RABBITMQ_HOST=amqp://rabbitmqhost
 PG_HOST=pghost
 PG_PORT=5432
@@ -55,6 +55,7 @@ WORKER_IMAGE=danilovaleksey92/tages-worker:1.0.0
 FRONT_IMAGE=danilovaleksey92/tages-front:1.0.0
 DOCKER_TAG=1.0.0
 
-если при отсутствии gitlab container registry
+при отсутствии gitlab container registry
 MY_REGISTRY=danilovaleksey92
 MY_REGISTRY_PASS=**********
+```
