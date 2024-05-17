@@ -1,0 +1,56 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  DOCKER_REGISTRY: $CI_REGISTRY
+  DOCKER_TAG: $CI_COMMIT_SHA
+#  DOCKER_REGISTRY: ${MY_REGISTRY}
+
+
+build-front:
+  stage: build
+  image: docker:latest
+#  
+# Регистрацию победить пока не удалось, Error: Cannot perform an interactive login from a non TTY device
+#не принимает, так как это скрипт а не интерактивный режим
+#  before_script:
+#    - echo ${MY_REGISTRY_PASS} | docker login --username $DOCKER_REGISTRY --password-stdin
+  script:
+    - docker build -f docker/Dockerfile.front -t ${DOCKER_REGISTRY}/tages-front:{DOCKER_TAG} .
+    - docker push ${DOCKER_REGISTRY}/front:${DOCKER_TAG}
+ when: manual
+ 
+build-api:
+  stage: build
+  image: docker:latest
+#  before_script:
+#    - echo ${MY_REGISTRY_PASS} | docker login --username $DOCKER_REGISTRY --password-stdin
+  script:
+    - docker build -f docker/Dockerfile.api -t ${DOCKER_REGISTRY}/tages-api:{DOCKER_TAG} .
+    - docker push ${DOCKER_REGISTRY}/api:${DOCKER_TAG}
+ when: manual
+
+
+build-worker:
+  stage: build
+  image: docker:latest
+#  before_script:
+#    - echo ${MY_REGISTRY_PASS} | docker login --username $DOCKER_REGISTRY --password-stdin
+  script:
+    - docker build -f docker/Dockerfile.worker -t ${DOCKER_REGISTRY}/tages-worker:{DOCKER_TAG} .
+    - docker push ${MY_REGISTRY}/worker:${DOCKER_TAG}
+ when: manual
+
+deploy:
+  stage: deploy
+  image: 
+    name: thorstenhans/helm3:latest
+    entrypoint: [""]
+  before_script:
+    - echo "$KUBE_CONFIG"| base64 -d > $CI_PROJECT_DIR/kubeconfig
+    - export KUBECONFIG=${CI_PROJECT_DIR}/kubeconfig
+    - chmod 600 ${CI_PROJECT_DIR}/kubeconfig
+  script:
+      - helm upgrade app ${CI_PROJECT_DIR}/charts/app-charts/ --install --wait --set front.image=${DOCKER_REGISTRY}/front:${DOCKER_TAG} --set api.image=${DOCKER_REGISTRY}/api:${DOCKER_TAG} --set worker.image.worker=${DOCKER_REGISTRY}/worker:${DOCKER_TAG}  
+  when: manual  
